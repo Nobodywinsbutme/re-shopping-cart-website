@@ -40,3 +40,17 @@ out/
 .env
 .env.prod
 .env.local
+
+### Logs ###
+*.log
+logs/
+
+### OS Files ###
+.DS_Store
+Thumbs.db
+
+### AWS/SSH Secrets ###
+*.pem
+*.ppk
+
+AWS

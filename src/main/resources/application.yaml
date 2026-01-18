@@ -1,27 +1,65 @@
+# =============================================================
+# COMMON CONFIGURATION (Dùng cho tất cả các môi trường)
+# =============================================================
 server:
   port: ${PORT:8080}
 
 spring:
   application:
     name: re-shopping-cart-web-app
-
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:local}
+  
+  # Cấu hình Datasource chung sử dụng biến môi trường
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  thymeleaf:
+    cache: false
+
+# =============================================================
+# LOCAL PROFILE (Dành cho phát triển máy cá nhân)
+# =============================================================
+---
+spring:
+  config:
+    activate:
+      on-profile: local
 
   datasource:
+    # Giá trị mặc định khi chạy local nếu không có file .env
     url: ${DB_URL:jdbc:mysql://localhost:3306/re_shopping_cart_db}
     username: ${DB_USERNAME:cart}
     password: ${DB_PASSWORD:123456}
-    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: ${JPA_DDL:update}
-    show-sql: ${SHOW_SQL:true}
+      ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
         '[format_sql]': true
         '[highlight_sql]': true
 
+# =============================================================
+# PROD PROFILE (Dành cho AWS EC2 + Aiven MySQL)
+# =============================================================
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  jpa:
+    hibernate:
+      # Tuyệt đối không để 'update' ở môi trường Production
+      ddl-auto: validate 
+    show-sql: false
+    properties:
+      hibernate:
+        '[format_sql]': false
+        '[highlight_sql]': false
+
+  # Tối ưu hóa cho Production
   thymeleaf:
-    cache: false
+    cache: true

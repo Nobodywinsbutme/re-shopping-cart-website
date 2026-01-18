@@ -1,0 +1,25 @@
+# Build folders
+build/
+out/
+bin/
+.gradle/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Sensitive files
+.env
+.env.local
+.env.prod
+Dockerfile
+.dockerignore
+
+# Git
+.git
+.gitignore
+
+# Logs
+log/
+*.log
