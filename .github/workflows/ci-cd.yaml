@@ -66,13 +66,13 @@ jobs:
             # 4. Pull image mới nhất về
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/re-shopping-cart:latest
 
-            # 5. Chạy container với các biến môi trường từ Secret
+            # 5. Chạy container với các biến môi trường chuẩn của Spring Boot
             docker run -d \
               --name re-shopping-cart \
               -p 80:8080 \
               -e SPRING_PROFILES_ACTIVE=prod \
-              -e DB_URL="${{ secrets.DB_URL }}" \
-              -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
-              -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
-              -e PORT=8080 \
+              -e SPRING_DATASOURCE_URL="${{ secrets.DB_URL }}" \
+              -e SPRING_DATASOURCE_USERNAME="${{ secrets.DB_USERNAME }}" \
+              -e SPRING_DATASOURCE_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+              -e SERVER_PORT=8080 \
               ${{ secrets.DOCKERHUB_USERNAME }}/re-shopping-cart:latest
